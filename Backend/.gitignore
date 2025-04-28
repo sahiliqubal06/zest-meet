@@ -1,0 +1,32 @@
+# Node modules
+node_modules/
+
+# Environment files
+src/.env
+src/.env.sample
+.env
+# Ignore environment files
+.env
+.env.local
+*.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Dependency lock files (optional; typically you'd keep this)
+# Uncomment the following line if you don't want to track lock files
+# package-lock.json
+
+# Prettier config (optional)
+.prettierignore
+.prettierrc
+
+# Optional: ignore dist or build folders (if any)
+dist/
+build/
