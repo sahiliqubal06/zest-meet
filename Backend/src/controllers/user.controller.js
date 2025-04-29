@@ -1,8 +1,9 @@
-import { User } from "../models/user.model.js";
-import httpStatus from "http-status";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
+import httpStatus from "http-status";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { User } from "../models/user.model.js";
+import { Meeting } from "../models/meeting.model.js";
 
 const register = asyncHandler(async (req, res, next) => {
   try {
@@ -31,7 +32,7 @@ const register = asyncHandler(async (req, res, next) => {
   }
 });
 
-const login = asyncHandler(async (req, res) => {
+const login = asyncHandler(async (req, res, next) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -70,4 +71,47 @@ const login = asyncHandler(async (req, res) => {
   }
 });
 
-export { register, login };
+const getUserHistory = asyncHandler(async (req, res, next) => {
+  const { token } = req.query;
+
+  try {
+    const user = await User.findOne({ token: token });
+    if (!user) {
+      return res.status(httpStatus.NOT_FOUND).json({
+        message: "User not found",
+      });
+    }
+
+    const meetings = await Meeting.find({ user_id: user.username });
+    res.status(httpStatus.OK).json(meetings);
+  } catch (error) {
+    next(error);
+  }
+});
+
+const addToHistory = asyncHandler(async (req, res, next) => {
+  const { token, meeting_code } = req.body;
+
+  try {
+    const user = await User.findOne({ token: token });
+    if (!user) {
+      return res.status(httpStatus.NOT_FOUND).json({
+        message: "User not found",
+      });
+    }
+
+    const newMeeting = new Meeting({
+      user_id: user.username,
+      meetingCode: meeting_code,
+    });
+
+    await newMeeting.save();
+    res.status(httpStatus.CREATED).json({
+      message: "Added code to history",
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+export { register, login, getUserHistory, addToHistory };
