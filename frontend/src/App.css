@@ -1,104 +1,318 @@
-.landingPageContainer {
-  width: 100vw;
-  height: 100vh;
-  background: url("/2.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  color: white;
+/* Modern Dark Landing Page Styles */
+:root {
+  --primary-bg: #0f0f13;
+  --secondary-bg: #1a1a24;
+  --accent-color: #FF9839;
+  --accent-hover: #ff8a1a;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.8);
+  --glass-effect: rgba(26, 26, 36, 0.7);
+  --nav-height: 80px;
 }
 
+/* Base Styles */
+.landingPageContainer {
+  width: 100vw;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Background Pattern */
+.landingPageContainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(255, 152, 57, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(255, 152, 57, 0.1) 0%, transparent 50%);
+  z-index: 0;
+}
+
+/* Navigation */
 .landingPageContainer nav {
-  padding-inline: 1.3rem;
-  padding-block: 1.6rem;
+  padding: 1.5rem 3rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+  background: var(--glass-effect);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .landingPageContainer nav h2 {
   font-size: 1.8rem;
-  font-weight: 500;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--accent-color), #ffcc00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
 }
 
-.landingPageContainer nav .navlist {
+.navlist {
   display: flex;
-  gap: 1.6rem;
+  gap: 2rem;
+  align-items: center;
+}
+
+.navlist p {
+  margin: 0;
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+  position: relative;
   cursor: pointer;
 }
 
+.navlist p:hover {
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+.navlist p::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent-color);
+  transition: width 0.3s ease;
+}
+
+.navlist p:hover::after {
+  width: 100%;
+}
+
+.navlist div[role="button"] {
+  background: var(--accent-color);
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.navlist div[role="button"]:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 152, 57, 0.3);
+}
+
+.navlist div[role="button"] p {
+  color: var(--primary-bg);
+  font-weight: 600;
+  margin: 0;
+}
+
+.navlist div[role="button"] p:hover {
+  color: var(--primary-bg);
+}
+
+/* Main Content */
 .landingMainContainer {
   display: flex;
   justify-content: space-between;
-  padding-inline: 3rem;
-  height: 80vh;
+  align-items: center;
+  padding: 2rem 3rem;
+  min-height: calc(100vh - var(--nav-height));
+  position: relative;
+  z-index: 1;
+  gap: 3rem;
+}
+
+.landingMainContainer > div:first-child {
+  flex: 1;
+  max-width: 600px;
+  padding: 2rem 0;
+}
+
+.landingMainContainer h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(90deg, var(--text-primary), #e0e0e0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.landingMainContainer h1 span {
+  background: linear-gradient(90deg, var(--accent-color), #ffcc00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.landingMainContainer p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+  max-width: 90%;
+}
+
+.landingMainContainer div[role="button"] {
+  background: var(--accent-color);
+  width: fit-content;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.landingMainContainer div[role="button"]:hover {
+  background: var(--accent-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(255, 152, 57, 0.4);
+}
+
+.landingMainContainer div[role="button"] a {
+  text-decoration: none;
+  color: var(--primary-bg);
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.landingMainContainer > div:last-child {
+  flex: 1;
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-.landingMainContainer > div:nth-child(1) {
-  font-size: 2.2rem;
-}
-
-.landingMainContainer > div:nth-child(1) div[role="button"] {
-  background: #d97500;
-  width: fit-content;
-  padding: 1rem;
-  border-radius: 20px;
-  margin-top: 1.4rem;
-}
-
-.landingMainContainer > div:nth-child(1) div[role="button"] a {
-  text-decoration: none;
-  color: white;
-  font-size: 1.7rem;
-}
-
-.landingMainContainer > div:nth-child(2) img {
+.landingMainContainer img {
   max-height: 70vh;
   width: auto;
-  border-radius: 1rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  animation: floatImage 3s ease-in-out infinite;
+  animation: floatImage 4s ease-in-out infinite;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 @keyframes floatImage {
-  0%,
-  100% {
-    transform: translateY(0);
+  0%, 100% {
+    transform: translateY(0) rotate(1deg);
   }
   50% {
-    transform: translateY(-8px);
+    transform: translateY(-15px) rotate(-1deg);
   }
 }
 
-.navbar {
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .landingMainContainer {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .landingMainContainer > div:first-child {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .landingMainContainer p {
+    max-width: 100%;
+  }
+
+  .landingMainContainer img {
+    max-height: 50vh;
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .landingPageContainer nav {
+    padding: 1.5rem;
+  }
+
+  .landingMainContainer h1 {
+    font-size: 2.5rem;
+  }
+
+  .navlist {
+    gap: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .landingPageContainer nav {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .navlist {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .landingMainContainer {
+    padding: 1.5rem;
+    height: auto;
+  }
+
+  .landingMainContainer h1 {
+    font-size: 2rem;
+  }
+
+  .landingMainContainer p {
+    font-size: 1rem;
+  }
+
+  .landingMainContainer img {
+    max-height: 40vh;
+  }
+}
+
+
+/* Home Page Specific - Matching Landing Page Theme */
+
+.inputJoinContainer {
   display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  padding-inline: 20px;
-  text-align: center;
+  justify-content: flex-start;
 }
 
-.meetContainer {
-  display: flex;
-  padding-inline: 20px;
-  height: 80vh;
-  gap: 10vw;
-  justify-content: center;
+.inputJoinContainer div[role="button"] {
+  background: var(--accent-color);
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-.leftPanel {
-  height: 100%;
-  display: flex;
-  align-items: center;
+.inputJoinContainer div[role="button"]:hover {
+  background: var(--accent-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(255, 152, 57, 0.4);
 }
 
-.righPanel {
-  display: flex;
-  align-items: center;
+.inputJoinContainer a {
+  color: var(--primary-bg);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1.2rem;
 }
 
-.righPanel > img {
-  width: 30vw;
-  height: auto;
-  border-radius: 20px;
+@media (max-width: 1024px) {
+  .inputJoinContainer {
+    justify-content: center;
+  }
 }

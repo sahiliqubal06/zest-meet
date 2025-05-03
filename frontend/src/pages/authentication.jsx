@@ -40,14 +40,18 @@ export default function Authentication() {
     palette: {
       mode: "dark",
       primary: {
-        main: "#7986cb",
+        main: "#FF9839",
       },
       secondary: {
-        main: "#ff4081",
+        main: "#21CBF3",
       },
       background: {
-        default: "#303030",
-        paper: "#424242",
+        default: "#0f0f13",
+        paper: "#1a1a24",
+      },
+      text: {
+        primary: "rgba(255, 255, 255, 0.95)",
+        secondary: "rgba(255, 255, 255, 0.7)",
       },
       strength: {
         weak: "#f44336",
@@ -66,6 +70,15 @@ export default function Authentication() {
           root: {
             "& .MuiOutlinedInput-root": {
               borderRadius: 8,
+              "& fieldset": {
+                borderColor: "rgba(255, 255, 255, 0.23)",
+              },
+              "&:hover fieldset": {
+                borderColor: "rgba(255, 255, 255, 0.5)",
+              },
+            },
+            "& .MuiInputLabel-root": {
+              color: "rgba(255, 255, 255, 0.7)",
             },
           },
         },
@@ -76,9 +89,17 @@ export default function Authentication() {
             borderRadius: 8,
             textTransform: "none",
             fontWeight: 600,
-          },
-          contained: {
             boxShadow: "none",
+            "&:hover": {
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.3)",
+            },
+          },
+        },
+      },
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            backgroundImage: "none",
           },
         },
       },
@@ -97,7 +118,6 @@ export default function Authentication() {
     }
 
     const lengthScore = Math.min(password.length / 12, 1) * 25;
-
     let complexityScore = 0;
     if (/[a-z]/.test(password)) complexityScore += 10;
     if (/[A-Z]/.test(password)) complexityScore += 15;
@@ -180,7 +200,6 @@ export default function Authentication() {
     try {
       if (formState === 0) {
         let result = await handleLogin(username, password);
-
         if (result.success) {
           setMessage("Login successful!");
           setOpen(true);
@@ -192,13 +211,11 @@ export default function Authentication() {
 
       if (formState === 1) {
         let result = await handleRegister(name, username, password);
-        console.log(result);
         setUsername("");
         setPassword("");
         setMessage("Registration successful! Please login.");
         setOpen(true);
         setError("");
-
         setTimeout(() => {
           setFormState(0);
         }, 2000);
@@ -214,65 +231,55 @@ export default function Authentication() {
     <ThemeProvider theme={theme}>
       <Box
         sx={{
-          height: "100vh",
+          minHeight: "100vh",
           width: "100vw",
           position: "relative",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 2,
+          background: "linear-gradient(135deg, #0f0f13 0%, #1a1a24 100%)",
           "&::before": {
             content: '""',
             position: "absolute",
             top: 0,
             left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            zIndex: 1,
-          },
-          "&::after": {
-            content: '""',
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundImage: "url('http://localhost:5173/5.webp')",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            width: "100%",
+            height: "100%",
+            backgroundImage:
+              "radial-gradient(circle at 25% 25%, rgba(255, 152, 57, 0.1) 0%, transparent 50%)," +
+              "radial-gradient(circle at 75% 75%, rgba(255, 152, 57, 0.1) 0%, transparent 50%)",
             zIndex: 0,
-            filter: "brightness(0.7)",
           },
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: 3,
         }}
       >
         <CssBaseline />
         <Paper
-          elevation={16}
+          elevation={0}
           sx={{
             width: "100%",
             maxWidth: "450px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            padding: 4,
+            padding: { xs: 3, sm: 4 },
+            backgroundColor: "rgba(32, 32, 32, 0.8)",
             backdropFilter: "blur(10px)",
-            backgroundColor: "rgba(48, 48, 48, 0.8)",
             borderRadius: 4,
             position: "relative",
-            zIndex: 2,
-            border: "1px solid rgba(255,255,255,0.1)",
+            zIndex: 1,
+            border: "1px solid rgba(255, 255, 255, 0.1)",
             boxShadow: "0 8px 32px rgba(0, 0, 0, 0.5)",
           }}
         >
           <Avatar
             sx={{
               m: 1,
-              bgcolor: "secondary.main",
-              width: 56,
-              height: 56,
-              boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+              width: 60,
+              height: 60,
+              bgcolor: "transparent",
+              background: "linear-gradient(45deg, #FF9839 30%, #ffcc00 90%)",
+              boxShadow: "0 4px 20px rgba(255, 152, 57, 0.3)",
             }}
           >
             <LockOutlinedIcon fontSize="large" />
@@ -280,8 +287,14 @@ export default function Authentication() {
 
           <Typography
             component="h1"
-            variant="h5"
-            sx={{ mb: 3, fontWeight: 600 }}
+            variant="h4"
+            sx={{
+              mb: 3,
+              fontWeight: 700,
+              background: "linear-gradient(90deg, #ffffff, #e0e0e0)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
           >
             {formState === 0 ? "Welcome Back" : "Create Account"}
           </Typography>
@@ -291,7 +304,7 @@ export default function Authentication() {
               mb: 3,
               display: "flex",
               width: "100%",
-              backgroundColor: "rgba(0,0,0,0.2)",
+              backgroundColor: "rgba(0, 0, 0, 0.2)",
               borderRadius: 2,
               padding: 0.5,
             }}
@@ -302,7 +315,9 @@ export default function Authentication() {
               onClick={() => setFormState(0)}
               sx={{
                 py: 1,
-                color: formState === 0 ? "" : "rgba(255,255,255,0.7)",
+                color: formState === 0 ? "text.primary" : "text.secondary",
+                fontWeight: 600,
+                borderRadius: 1,
               }}
             >
               Sign In
@@ -313,7 +328,9 @@ export default function Authentication() {
               onClick={() => setFormState(1)}
               sx={{
                 py: 1,
-                color: formState === 1 ? "" : "rgba(255,255,255,0.7)",
+                color: formState === 1 ? "text.primary" : "text.secondary",
+                fontWeight: 600,
+                borderRadius: 1,
               }}
             >
               Sign Up
@@ -337,7 +354,6 @@ export default function Authentication() {
                 value={name}
                 autoFocus
                 onChange={(e) => setName(e.target.value)}
-                variant="outlined"
               />
             )}
             <TextField
@@ -350,7 +366,6 @@ export default function Authentication() {
               value={username}
               autoFocus={formState !== 1}
               onChange={(e) => setUsername(e.target.value)}
-              variant="outlined"
             />
             <TextField
               margin="normal"
@@ -362,7 +377,6 @@ export default function Authentication() {
               type={showPassword ? "text" : "password"}
               id="password"
               onChange={(e) => setPassword(e.target.value)}
-              variant="outlined"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -370,6 +384,7 @@ export default function Authentication() {
                       aria-label="toggle password visibility"
                       onClick={handleClickShowPassword}
                       edge="end"
+                      sx={{ color: "text.secondary" }}
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
@@ -426,13 +441,15 @@ export default function Authentication() {
                   sx={{
                     height: 6,
                     borderRadius: 3,
-                    backgroundColor: "rgba(255,255,255,0.1)",
+                    backgroundColor: "rgba(255, 255, 255, 0.1)",
                     "& .MuiLinearProgress-bar": {
                       backgroundColor: getPasswordStrengthColor(),
                     },
                   }}
                 />
-                <FormHelperText>{passwordFeedback}</FormHelperText>
+                <FormHelperText sx={{ color: getPasswordStrengthColor() }}>
+                  {passwordFeedback}
+                </FormHelperText>
               </Box>
             )}
 
@@ -452,26 +469,33 @@ export default function Authentication() {
                 py: 1.5,
                 fontSize: "1rem",
                 fontWeight: "bold",
+                background: "linear-gradient(45deg, #FF9839 30%, #ffcc00 90%)",
+                "&:hover": {
+                  background:
+                    "linear-gradient(45deg, #ff8a1a 30%, #ffb733 90%)",
+                },
               }}
             >
               {formState === 0 ? "Sign In" : "Create Account"}
             </Button>
           </Box>
         </Paper>
-      </Box>
 
-      <Snackbar
-        open={open}
-        autoHideDuration={4000}
-        onClose={() => setOpen(false)}
-        message={message}
-        sx={{
-          "& .MuiSnackbarContent-root": {
-            backgroundColor: "#424242",
-            color: "#fff",
-          },
-        }}
-      />
+        <Snackbar
+          open={open}
+          autoHideDuration={4000}
+          onClose={() => setOpen(false)}
+          message={message}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          sx={{
+            "& .MuiSnackbarContent-root": {
+              background: "linear-gradient(45deg, #1a1a24 30%, #252532 90%)",
+              color: "#fff",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+            },
+          }}
+        />
+      </Box>
     </ThemeProvider>
   );
 }
