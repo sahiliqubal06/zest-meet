@@ -1,8 +1,10 @@
 import React from "react";
 import "../App.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function landing() {
+  const router = useNavigate();
+
   return (
     <div className="landingPageContainer">
       <nav>
@@ -10,9 +12,26 @@ export default function landing() {
           <h2>ZestMeet</h2>
         </div>
         <div className="navlist">
-          <p>Join as Guest</p>
-          <p>Register</p>
-          <div role="button">
+          <p
+            onClick={() => {
+              router("/a45csx");
+            }}
+          >
+            Join as Guest
+          </p>
+          <p
+            onClick={() => {
+              router("/auth");
+            }}
+          >
+            Register
+          </p>
+          <div
+            onClick={() => {
+              router("/auth");
+            }}
+            role="button"
+          >
             <p>Login</p>
           </div>
         </div>

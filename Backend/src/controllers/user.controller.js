@@ -110,6 +110,7 @@ const addToHistory = asyncHandler(async (req, res, next) => {
       message: "Added code to history",
     });
   } catch (error) {
+    console.error("Error adding to history:", error);
     next(error);
   }
 });
