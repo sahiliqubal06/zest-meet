@@ -11,6 +11,7 @@ import StopScreenShareIcon from "@mui/icons-material/StopScreenShare";
 import ChatIcon from "@mui/icons-material/Chat";
 import io from "socket.io-client";
 import { useNavigate } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
 
 const server_url = "http://localhost:8000";
 
@@ -34,17 +35,16 @@ export default function VideoMeetComponent() {
   const [video, setVideo] = useState(false);
   const [audio, setAudio] = useState(false);
   const [screen, setScreen] = useState();
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const [screenAvailable, setScreenAvailable] = useState(false);
   const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState(""); // Fixed: Now correctly stores the chat message
-  const [newMessage, setNewMessage] = useState(3);
+  const [message, setMessage] = useState("");
+  const [newMessage, setNewMessage] = useState(0);
 
   const [askForUsername, setAskForUsername] = useState(true);
-  const [username, setUsername] = useState(""); // Fixed: Now correctly stores the username
+  const [username, setUsername] = useState("");
   const [videos, setVideos] = useState([]);
 
-  //  Added more robust logging to help debug connection issues
   const logConnection = (message, data) => {
     console.log(`[Connection] ${message}`, data || "");
   };
@@ -112,6 +112,7 @@ export default function VideoMeetComponent() {
       if (window.localStream) {
         window.localStream.getTracks().forEach((track) => track.stop());
       }
+      setMessages([]);
     };
   }, []);
 
@@ -256,7 +257,6 @@ export default function VideoMeetComponent() {
     }
   }, [audio, video]);
 
-  //  Enhanced message handling with more debugging
   const gotMessageFromServer = (fromId, message) => {
     var signal = JSON.parse(message);
     logConnection(`Got signal from ${fromId}`, signal);
@@ -528,6 +528,8 @@ export default function VideoMeetComponent() {
 
   const connect = () => {
     setAskForUsername(false);
+    setMessages([]); // Clear messages when a user connects
+    setNewMessage(0); // Reset new message counter
     getMedia();
   };
 
@@ -543,7 +545,6 @@ export default function VideoMeetComponent() {
     setScreen(!screen);
   };
 
-  // Fixed getDisplayMedia to properly share screen with other participants
   let getDisplayMedia = () => {
     if (navigator.mediaDevices.getDisplayMedia) {
       logConnection("Requesting screen sharing");
@@ -566,7 +567,6 @@ export default function VideoMeetComponent() {
     }
   }, [screen]);
 
-  //  Completely revised getDisplayMediaSuccess for proper screen sharing
   let getDisplayMediaSuccess = (stream) => {
     logConnection("Got display media stream", {
       tracks: stream.getTracks().length,
@@ -703,7 +703,7 @@ export default function VideoMeetComponent() {
       socketRef.current.emit("chat-message", message, username);
       setMessage("");
       // Add the message locally as well to show immediately
-      addMessage(message, username, socketIdRef.current);
+      // addMessage(message, username, socketIdRef.current);
     }
   };
 
@@ -727,26 +727,35 @@ export default function VideoMeetComponent() {
   return (
     <div>
       {askForUsername === true ? (
-        <div className={styles.loginContainer}>
-          <h2>Enter into Lobby</h2>
-          <TextField
-            id="outlined-basic"
-            label="Username"
-            value={username} //  Using the correct state variable
-            onChange={(e) => setUsername(e.target.value)} // FIXED: Setting the username
-            fullWidth
-            margin="normal"
-          />
-          <Button
-            variant="contained"
-            onClick={connect}
-            disabled={!username.trim()} // Disable button if username is empty
-            className={styles.connectButton}
-          >
-            Connect
-          </Button>
-          <div className={styles.previewVideo}>
-            <video ref={localVideoRef} autoPlay muted></video>
+        <div className={styles.loginPage}>
+          <div className={styles.loginContainer}>
+            <IconButton
+              onClick={() => routeTo("/home")}
+              style={{ marginBottom: "1rem" }}
+            >
+              <HomeIcon style={{ color: "#FF9839" }} />
+            </IconButton>
+
+            <h2>Enter into Lobby</h2>
+            <TextField
+              id="outlined-basic"
+              label="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              fullWidth
+              margin="normal"
+            />
+            <Button
+              variant="contained"
+              onClick={connect}
+              disabled={!username.trim()} // Disable button if username is empty
+              className={styles.connectButton}
+            >
+              Connect
+            </Button>
+            <div className={styles.previewVideo}>
+              <video ref={localVideoRef} autoPlay muted></video>
+            </div>
           </div>
         </div>
       ) : (
@@ -756,7 +765,6 @@ export default function VideoMeetComponent() {
               <div className={styles.chatContainer}>
                 <h1 className={styles.chatHeader}>Chat</h1>
 
-                {/*  Improved chat display area */}
                 <div className={styles.chattingDisplay}>
                   {messages.length > 0 ? (
                     messages.map((item, index) => {
@@ -778,7 +786,6 @@ export default function VideoMeetComponent() {
                   )}
                 </div>
 
-                {/*  Improved chat input area */}
                 <div className={styles.chattingArea}>
                   <TextField
                     id="outlined-basic"
@@ -846,7 +853,6 @@ export default function VideoMeetComponent() {
             muted
           ></video>
 
-          {/* Enhanced video container for better remote video display */}
           <div className={styles.conferenceView}>
             {videos.map((video, index) => (
               <div

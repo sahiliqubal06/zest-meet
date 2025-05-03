@@ -1,8 +1,7 @@
-/* Modern Dark Landing Page Styles */
 :root {
   --primary-bg: #0f0f13;
   --secondary-bg: #1a1a24;
-  --accent-color: #FF9839;
+  --accent-color: #ff9839;
   --accent-hover: #ff8a1a;
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.8);
@@ -10,32 +9,40 @@
   --nav-height: 80px;
 }
 
-/* Base Styles */
 .landingPageContainer {
   width: 100vw;
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary-bg) 0%,
+    var(--secondary-bg) 100%
+  );
   color: var(--text-primary);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   overflow-x: hidden;
   position: relative;
 }
 
-/* Background Pattern */
 .landingPageContainer::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
-    radial-gradient(circle at 25% 25%, rgba(255, 152, 57, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(255, 152, 57, 0.1) 0%, transparent 50%);
+  background-image: radial-gradient(
+      circle at 25% 25%,
+      rgba(255, 152, 57, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 75% 75%,
+      rgba(255, 152, 57, 0.1) 0%,
+      transparent 50%
+    );
   z-index: 0;
 }
 
-/* Navigation */
 .landingPageContainer nav {
   padding: 1.5rem 3rem;
   display: flex;
@@ -49,10 +56,12 @@
 }
 
 .landingPageContainer nav h2 {
-  font-size: 1.8rem;
+  font-size: 2.2rem;
   font-weight: 700;
-  background: linear-gradient(90deg, var(--accent-color), #ffcc00);
+  background: linear-gradient(90deg, #ff5733, #ff8d1a, #ff5733);
+  background-clip: text;
   -webkit-background-clip: text;
+  -moz-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin: 0;
 }
@@ -79,7 +88,7 @@
 }
 
 .navlist p::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -5px;
   left: 0;
@@ -117,7 +126,6 @@
   color: var(--primary-bg);
 }
 
-/* Main Content */
 .landingMainContainer {
   display: flex;
   justify-content: space-between;
@@ -141,14 +149,18 @@
   line-height: 1.2;
   margin-bottom: 1.5rem;
   background: linear-gradient(90deg, var(--text-primary), #e0e0e0);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .landingMainContainer h1 span {
   background: linear-gradient(90deg, var(--accent-color), #ffcc00);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .landingMainContainer p {
@@ -202,7 +214,8 @@
 }
 
 @keyframes floatImage {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0) rotate(1deg);
   }
   50% {
@@ -210,7 +223,6 @@
   }
 }
 
-/* Responsive Design */
 @media (max-width: 1024px) {
   .landingMainContainer {
     flex-direction: column;
@@ -279,8 +291,7 @@
   }
 }
 
-
-/* Home Page Specific - Matching Landing Page Theme */
+/* Home Page */
 
 .inputJoinContainer {
   display: flex;

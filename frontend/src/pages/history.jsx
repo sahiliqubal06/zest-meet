@@ -10,7 +10,6 @@ import { IconButton } from "@mui/material";
 export default function History() {
   const { getUserHistory } = useContext(AuthContext);
   const [meetings, setMeetings] = useState([]);
-
   const routeTo = useNavigate();
 
   useEffect(() => {
@@ -25,49 +24,68 @@ export default function History() {
     fetchHistory();
   }, []);
 
-  let formatDate = (dateString) => {
+  const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, "0");
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const year = date.getFullYear();
-
     return `${day}/${month}/${year}`;
   };
 
   return (
-    <div>
+    <div
+      style={{
+        minHeight: "100vh",
+        width: "100%",
+        backgroundColor: "#121212",
+        padding: "1rem",
+        color: "white",
+        fontFamily: "sans-serif",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <IconButton
-        onClick={() => {
-          routeTo("/home");
-        }}
+        onClick={() => routeTo("/home")}
+        style={{ marginBottom: "1rem" }}
       >
-        <HomeIcon />
+        <HomeIcon style={{ color: "#FF9839" }} />
       </IconButton>
-      {meetings.length !== 0 ? (
-        meetings.map((e, i) => {
-          return (
-            <>
-              <Card key={i} variant="outlined">
-                <CardContent>
-                  <Typography
-                    sx={{ fontSize: 14 }}
-                    color="text.secondary"
-                    gutterBottom
-                  >
-                    Code: {e.meetingCode}
-                  </Typography>
 
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    Date: {formatDate(e.date)}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </>
-          );
-        })
-      ) : (
-        <></>
-      )}
+      <div style={{ width: "100%", maxWidth: "600px" }}>
+        {meetings.length !== 0 ? (
+          meetings.map((e, i) => (
+            <Card
+              key={i}
+              variant="outlined"
+              style={{
+                marginBottom: "1rem",
+                backgroundColor: "#1e1e1e",
+                borderColor: "#FF9839",
+                color: "white",
+              }}
+            >
+              <CardContent>
+                <Typography
+                  sx={{ fontSize: 14 }}
+                  style={{ color: "#ccc" }}
+                  gutterBottom
+                >
+                  Code: {e.meetingCode}
+                </Typography>
+                <Typography sx={{ mb: 1.5 }} style={{ color: "#aaa" }}>
+                  Date: {formatDate(e.date)}
+                </Typography>
+              </CardContent>
+            </Card>
+          ))
+        ) : (
+          <Typography style={{ color: "#ccc", textAlign: "center" }}>
+            No meeting history available.
+          </Typography>
+        )}
+      </div>
     </div>
   );
 }
