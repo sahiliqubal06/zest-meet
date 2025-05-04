@@ -12,8 +12,9 @@ import ChatIcon from "@mui/icons-material/Chat";
 import io from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
+import server from "../environment";
 
-const server_url = "http://localhost:8000";
+const server_url = server;
 
 // Using ref for connections to maintain across renders
 const peerConfigConnections = {
