@@ -115,7 +115,7 @@ frontend/
 1. **Clone the Repository**
 
 ```bash
-git clone https://github.com/your-username/ZestMeet.git
+https://github.com/sahiliqubal06/zest-meet.git
 cd ZestMeet
 ```
 
